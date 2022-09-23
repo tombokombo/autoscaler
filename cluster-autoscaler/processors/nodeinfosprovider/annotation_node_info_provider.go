@@ -58,6 +58,16 @@ func (p *AnnotationNodeInfoProvider) Process(ctx *context.AutoscalingContext, no
 					nodeInfo.Node().Annotations[key] = val
 				}
 			}
+			for resourceName, val := range template.Node().Status.Capacity {
+				if _, ok := nodeInfo.Node().Status.Capacity[resourceName]; !ok {
+					nodeInfo.Node().Status.Capacity[resourceName] = val
+				}
+			}
+			for resourceName, val := range template.Node().Status.Allocatable {
+				if _, ok := nodeInfo.Node().Status.Allocatable[resourceName]; !ok {
+					nodeInfo.Node().Status.Allocatable[resourceName] = val
+				}
+			}
 		}
 	}
 	return nodeInfos, nil
